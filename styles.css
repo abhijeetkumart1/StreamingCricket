@@ -1,0 +1,210 @@
+
+       .video-js {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 */
+        }
+        #playerContainer iframe {
+            width: 100%;
+            height: 23.5vh;
+            border: none;
+        }
+        .header {
+            margin-top: -29px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #22fcd8, #fc22d8);
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            font-family: "Copperplate", "Papyrus", Fantasy;
+        }
+        /* css for dropdown */
+        
+        .stream-selector {
+        background-color: #1f2937;
+        color: white;
+        margin-top:12px;
+        margin-bottom:-22px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 1px solid #4b5563;
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 400px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    .stream-selector:hover {
+        background-color: #374151;
+        border-color: #6b7280;
+    }
+    
+    .stream-selector:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    }
+    
+    .stream-selector option {
+        
+        background-color: #1f2937;
+        padding: 18px;
+    }
+    
+    .stream-selector-wrapper {
+        position: center;
+        width: 40%;
+        max-width: 400px;
+        margin: -10px auto 15px;
+    }
+    
+    .match-box{
+            padding-top: 0.4px;
+            padding-bottom: 10px;
+            margin-bottom: -10px;
+
+    }
+    
+    .match-title {
+        text-align: center;
+        
+
+    }
+    .title-1{
+        font-size: 2.5rem;
+        background: linear-gradient(to right, #0cfc08, #fc0808);
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-bottom: -6px;
+            
+            font-weight: bold;
+
+    }
+    .title-2{
+        font-size: .9rem;
+        margin-bottom: 40px;
+                    border-bottom: 1px solid #374151;
+    }
+    .channels{
+        margin-top: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.3rem;
+        color: #fcf408;
+        margin-bottom: -7px;
+    }
+    
+         /* Social Sharing Styles */
+        .social-share-section {
+            
+            margin-top: -8px;
+            padding-top: 0.4px;
+            padding-bottom: 17px;
+        }
+
+        .share-title {
+            text-align: center;
+            margin-top: 12px;
+            color: #69f9dc;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .share-btn i {
+            margin-right: 3px;
+            font-size: 1.2rem;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .telegram-share { background-color: #0088cc; }
+        .whatsapp-share { background-color: #25D366; }
+        .facebook-share { background-color: #3b5998; }
+        .twitter-share { background-color: #1DA1F2; }
+        .copy-link { background-color: var(--accent-color); }
+
+        @media (max-width: 768px) {
+            .share-buttons {
+                gap: 6px;
+            }
+            
+            .share-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .telegram-channel{
+            margin-top: 7px;
+            padding-top: 0.4px;
+            padding-bottom: 17px;
+        }
+        .telegram-share-title{
+            text-align: center;
+            margin-top: 10px;
+            color: #e542c9;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .telegram-btn {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+        }
+        .telegram-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(42, 171, 238, 0.3);
+        }
+        
+        .video-ad{
+            margin-top: -20px;
+        }
+        
+                .disclaimer {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #374151;
+            margin-top: 30px;
+        }
+        
