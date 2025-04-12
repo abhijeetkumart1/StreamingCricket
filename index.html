@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CricLivNP</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Video.js + HLS plugin -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels@2.0.9/dist/videojs-contrib-quality-levels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector@1.1.4/dist/videojs-hls-quality-selector.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .video-js {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 */
+        }
+        #playerContainer iframe {
+            width: 100%;
+            height: 26vh;
+            border: none;
+        }
+        .header {
+            margin-top: -29px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #22fcd8, #fc22d8);
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            font-family: "Copperplate", "Papyrus", Fantasy;
+        }
+        /* css for dropdown */
+        
+        .stream-selector {
+        background-color: #1f2937;
+        color: white;
+        margin-top:12px;
+        margin-bottom:-22px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: 1px solid #4b5563;
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 400px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ffffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    
+    .stream-selector:hover {
+        background-color: #374151;
+        border-color: #6b7280;
+    }
+    
+    .stream-selector:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    }
+    
+    .stream-selector option {
+        
+        background-color: #1f2937;
+        padding: 18px;
+    }
+    
+    .stream-selector-wrapper {
+        position: center;
+        width: 40%;
+        max-width: 400px;
+        margin: -10px auto 15px;
+    }
+    
+    .match-box{
+            padding-top: 0.4px;
+            padding-bottom: 10px;
+            margin-bottom: -10px;
+
+    }
+    
+    .match-title {
+        text-align: center;
+        
+
+    }
+    .title-1{
+        font-size: 2.5rem;
+        background: linear-gradient(to right, #0cfc08, #fc0808);
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-bottom: -6px;
+            
+            font-weight: bold;
+
+    }
+    .title-2{
+        font-size: .9rem;
+        margin-bottom: 40px;
+                    border-bottom: 1px solid #374151;
+    }
+    .channels{
+        margin-top: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.3rem;
+        color: #fcf408;
+        margin-bottom: -7px;
+    }
+    
+         /* Social Sharing Styles */
+        .social-share-section {
+            
+            margin-top: -8px;
+            padding-top: 0.4px;
+            padding-bottom: 17px;
+        }
+
+        .share-title {
+            text-align: center;
+            margin-top: 12px;
+            color: #69f9dc;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 20px;
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .share-btn i {
+            margin-right: 3px;
+            font-size: 1.2rem;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .telegram-share { background-color: #0088cc; }
+        .whatsapp-share { background-color: #25D366; }
+        .facebook-share { background-color: #3b5998; }
+        .twitter-share { background-color: #1DA1F2; }
+        .copy-link { background-color: var(--accent-color); }
+
+        @media (max-width: 768px) {
+            .share-buttons {
+                gap: 6px;
+            }
+            
+            .share-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        .telegram-channel{
+            margin-top: 7px;
+            padding-top: 0.4px;
+            padding-bottom: 17px;
+        }
+        .telegram-share-title{
+            text-align: center;
+            margin-top: 10px;
+            color: #e542c9;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .telegram-btn {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #2AABEE 0%, #229ED9 100%);
+        }
+        .telegram-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(42, 171, 238, 0.3);
+        }
+        
+        .video-ad{
+            margin-top: -20px;
+        }
+        
+                .disclaimer {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #374151;
+            margin-top: 30px;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="header">
+           <h1>CricLivNP</h1>
+        </header>
+        
+        
+        
+        <!-- Telegram Shopping Channel Video Ad -->
+           <div class="container">
+        <!-- Main Content Box -->
+        <div class="bg-gray-800 rounded-xl shadow-2xl p-0">
+        
+        <!-- Player Container -->
+        <div id="playerContainer" class="rounded-lg overflow-hidden shadow-xl bg-black">
+            <!-- Player will be inserted here -->
+        </div>
+        <div class="match-box">
+        <div class="match-title">
+          <span class="title-1">CSK VS KKR</span><br>
+          <span class="title-2"><strong>Match:</strong> 25 of 74 | <strong>IPL 2025</strong></span>
+          
+      </div>
+      </div>
+
+        
+       <!-- Stream Selector Dropdown -->
+       <div class="channels container bg-gray-800 rounded-xl shadow-2xl">
+           <strong>Select Channel</strong>
+        <div class="stream-selector-wrapper">
+            <select id="streamSelector" class="stream-selector">
+                <option value="https://user4580.ifrem.net/iframe/frame.php" selected>Hotstar</option>
+                <option value="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8">Star Sports 1</option>
+                <option value="https://live-test.tsports.com/live-02/master_720.m3u8?hdntl=Expires=1744474409~_GO=Generated~URLPrefix=aHR0cHM6Ly9saXZlLXRlc3QudHNwb3J0cy5jb20v~Signature=Ac46gdhEHtSeol4DfSKZ9yVPiHvDcv-4EaLrdVYQUNWPeJFE0WzOAyyeqOnB-54Ockcve_xxtFeGxmo2YVtQyjjMUUwJ">T Sports</option>
+                <option value="">Willow TV</option>
+            </select>
+        </div>
+        
+        </div>
+        </div>
+
+
+        <!-- New Share Buttons Section -->
+            <!-- New Share Buttons Section -->
+                <div class="social-share-section container bg-gray-800 rounded-xl shadow-2xl">
+                    <h3 class="share-title">Share This Stream With Friends</h3>
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn telegram-share" id="telegramShare">
+                            <i class="fab fa-telegram"></i> Telegram
+                        </a>
+                        <a href="#" class="share-btn whatsapp-share" id="whatsappShare">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <a href="#" class="share-btn facebook-share" id="facebookShare">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a>
+                    </div>
+                </div>
+
+        
+        
+                <!-- Telegram Channel Buttons -->
+                
+        <div class="container">
+            <div class="telegram-channel container bg-gray-800 rounded-xl shadow-2xl">
+            <h3 class="telegram-share-title">Join Our Telegram Channels</h3>
+            <div class="flex justify-center gap-3">
+                <a href="https://t.me/CricLivNP" target="_blank" 
+                   class="telegram-btn rounded-lg py-2 px-4 text-white text-sm font-medium flex items-center gap-1">
+                    <i class="fab fa-telegram"></i>
+                    <span>Update & News</span>
+                </a>
+                <a href="https://t.me/+CcX4J9W5j0MyZThl" target="_blank" 
+                   class="telegram-btn rounded-lg py-2 px-4 text-white text-sm font-medium flex items-center gap-1">
+                    <i class="fab fa-telegram"></i>
+                    <span>Live Links</span>
+                </a>
+            </div>
+        </div>
+        </div>
+    
+           <!-- Telegram Shopping Channel Video Ad -->
+           <div class="container">
+        <!-- Main Content Box -->
+        <div class=" video-ad bg-gray-800 rounded-xl shadow-2xl p-0">
+        <div class="mt-8 text-center">
+            <a href="https://t.me/Tg_Shoping" target="_blank" class="block max-w-2xl mx-auto">
+                <!-- Replace 'shopping-ad.mp4' with your actual video file -->
+                <video class="w-full rounded-lg shadow-xl" autoplay muted loop playsinline>
+                    <source src="shopping-ad.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </a>
+        </div>
+        </div>
+        </div>
+
+        <!-- Footer Disclaimer -->
+        <footer class="disclaimer">
+            <p>Disclaimer: This Streams We Provided Are Not Own By Us, Already Someone Hosted On Internet. We Do Not Host Or Transmit Any Copyrighted Content.</p>
+        </footer>
+        </div>
+
+    <!-- Video.js -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const playerContainer = document.getElementById('playerContainer');
+            const streamSelector = document.getElementById('streamSelector');
+            let currentPlayer = null;
+
+            // Automatically load the first stream
+            const firstStreamUrl = streamSelector.options[0].value;
+            initPlayer(firstStreamUrl);
+
+            // Handle stream selection change
+            streamSelector.addEventListener('change', function() {
+                const selectedUrl = this.value;
+                if (selectedUrl) {
+                    // Destroy previous player if exists
+                    if (currentPlayer && currentPlayer.dispose) {
+                        currentPlayer.dispose();
+                    }
+                    
+                    initPlayer(selectedUrl);
+                }
+            });
+
+            function initPlayer(url) {
+                // Clear previous content
+                playerContainer.innerHTML = '';
+
+                if (isVideoUrl(url)) {
+                    // Video Player
+                    playerContainer.innerHTML = `
+                        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" data-setup='{}'>
+                            <source src="${url}" type="${getVideoType(url)}">
+                            Your browser does not support this stream.
+                        </video>
+                    `;
+                    
+                    // Initialize Video.js
+                    currentPlayer = videojs('videoPlayer', {}, function() {
+                        // When player is ready, try to autoplay
+                        this.play().catch(error => {
+                            console.log('Autoplay was prevented:', error);
+                            this.bigPlayButton.show();
+                        });
+                    });
+                    
+                    // Handle errors
+                    currentPlayer.on('error', function() {
+                        playerContainer.innerHTML = `
+                            <div class="p-4 text-center text-red-400">
+                                Error loading stream. Please try another source.
+                            </div>
+                        `;
+                    });
+                } else {
+                    // Webpage iframe
+                    playerContainer.innerHTML = `
+                        <iframe src="${url}" allowfullscreen></iframe>
+                    `;
+                    currentPlayer = playerContainer.querySelector('iframe');
+                }
+            }
+
+            // Helper functions
+            function isVideoUrl(url) {
+                const videoExtensions = ['.m3u8', '.mp4', '.webm', '.mkv', '.mov'];
+                return videoExtensions.some(ext => url.toLowerCase().includes(ext));
+            }
+
+            function getVideoType(url) {
+                if (url.includes('.m3u8')) return 'application/x-mpegURL';
+                if (url.includes('.mp4')) return 'video/mp4';
+                if (url.includes('.webm')) return 'video/webm';
+                return 'video/mp4';
+            }
+        });
+
+        
+        
+        
+        
+        // Social Sharing Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageUrl = encodeURIComponent(window.location.href);
+            const pageTitle = encodeURIComponent(document.title);
+            
+            // Set share URLs
+            document.getElementById('telegramShare').href = `https://t.me/share/url?url=${pageUrl}&text=${pageTitle}`;
+            document.getElementById('whatsappShare').href = `https://wa.me/?text=${pageTitle}%20${pageUrl}`;
+            document.getElementById('facebookShare').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+            
+            // Copy link functionality
+            document.getElementById('copyLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+            
+            // Open share links in new tab
+            document.querySelectorAll('.share-btn').forEach(btn => {
+                if(btn.id !== 'copyLink') {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        window.open(this.href, '_blank', 'width=600,height=400');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
